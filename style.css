@@ -1,0 +1,66 @@
+nav a {
+  color: #6C5CE6;
+}
+
+nav a:hover {
+  text-decoration: none;
+  color: #10B3F5;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+}
+
+.row {
+	margin: 0px 0px;
+}
+
+.ban img {
+  width: 55%;
+}
+
+.ez img {
+  width: 40%;
+}
+
+footer {
+  background-color: #291e28;
+}
+
+footer .articlefooter {
+  margin-top: 10px;
+  padding: 30px 30px 30px 30px;
+  margin-right: 10px;
+  width: 100%;
+  max-width: 100%;
+  color: #C7E8F5;
+  text-align: right;
+}
+
+footer .par {
+  margin-top: 10px;
+  padding: 30px 30px 30px 30px;
+  margin-right: 10px;
+  width: 100%;
+  max-width: 100%;
+  color: #FF00F7;
+  text-align: right;
+}
+
+footer .articlefooter h2 {
+  text-align: right;
+}
+
+footer .articlefooter p {
+  padding-top: 10px;
+  margin-top: 25px;
+  font-family: myriad pro;
+}
+
+footer .articlefooter img {
+  margin-top: 10px;
+  margin-right: 10px;
+  height: 90px;
+  width: 90px;
+}
