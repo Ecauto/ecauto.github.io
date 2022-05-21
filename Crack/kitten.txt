@@ -41,7 +41,7 @@ from bitcoin import *
 
 btc = '''
 
-	                Kitten Miner
+	       Kitten Miner | Press Enter
 
 
 
@@ -77,7 +77,7 @@ btc = '''
 '''[1:]
 
 System.Size(140, 40)
-System.Title("Kitten Miner")
+System.Title("Kitten Miner (By Izikut)")
 System.Clear()
 Anime.Fade(Center.Center(btc), Colors.purple_to_blue, Colorate.Vertical, interval=0.025, enter=True)
 
