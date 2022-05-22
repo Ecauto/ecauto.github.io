@@ -1,0 +1,2 @@
+exec()
+exec('print(salut chui la)') 
