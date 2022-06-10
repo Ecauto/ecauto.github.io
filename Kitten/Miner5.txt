@@ -11,10 +11,8 @@ colorama.init()
 os.system("cls")
 os.system("title Kitten Miner (By Izikut)")
 if sys.argv.__len__() != 2:
-    print(colorama.Fore.WHITE + "[" + colorama.Fore.RED + "ERROR" + colorama.Fore.WHITE + "] " + colorama.Fore.RED + "Mp Izikut")
+    print(colorama.Fore.WHITE + "[" + colorama.Fore.RED + "ERROR" + colorama.Fore.WHITE + "] " + colorama.Fore.RED + "Mp Izikut..")
     os.system("pause")
-    exit()
-
 
 
 else:
