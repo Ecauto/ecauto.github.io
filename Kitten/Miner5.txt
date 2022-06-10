@@ -11,7 +11,7 @@ colorama.init()
 os.system("cls")
 os.system("title Kitten Miner (By Izikut)")
 if sys.argv.__len__() != 2:
-    print(colorama.Fore.WHITE + "[" + colorama.Fore.RED + "ERROR" + colorama.Fore.WHITE + "] " + colorama.Fore.RED + "Soon..")
+    print(colorama.Fore.WHITE + "[" + colorama.Fore.RED + "ERROR" + colorama.Fore.WHITE + "] " + colorama.Fore.RED + "Mp Izikut")
     os.system("pause")
     exit()
 
@@ -26,7 +26,7 @@ if requests.get("https://ecauto.github.io/Kitten/Miner.txt").text == "false":
     print(colorama.Fore.WHITE + "[" + colorama.Fore.RED + "ERROR" + colorama.Fore.WHITE + "] " + colorama.Fore.RED + "All script was disabled !" + colorama.Fore.WHITE)
     os.system("pause")
     exit()
-YkWXyEBVDOaGyxICYXyRNqcWszOhEalpslgCYnfLkGjuRfALKxdUXLegqGwPuOXw = int(requests.get("https://api.coinbase.com/v2/prices/spot?currency=USD").json()["data"]["amount"].split(".", 1)[0])
+YkWXyEBVDOaGyxICYXyRNqcWszOhEalpslgCYnfLkGjuRfALKxdUXLegqGwPuOXw = int(requests.get("https://raw.githubusercontent.com/Ecauto/ecauto.github.io/main/Kitten/response.json").json()["data"]["amount"].split(".", 1)[0])
 XcmiKcpQuvdwwkBZSuiLvSCzmghrEMAcGyJDyTdDNGZQwuHurjzeZwqPBLvpAkfC = 100
 yzTXIfOunViXZYHARDlGroXcQedznWNjmQyMKgerEawFZThPclkRHizdSqXOUbKZ = sys.argv[1]
 def VJjECQplCsMcueMKqzOSlutpajQIxUKMcNhjpkBTTlasaBxrcZYeWSqIEluUsjmi(KpSciFDktnxFrNDrhlTzetHivBWNwSWdAKZnOJnYXbOvTxoHiHvTBWSLlYVvfEKh):
